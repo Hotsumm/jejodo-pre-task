@@ -1,16 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
+import Layout from './components/layout/Layout';
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <Main>App</Main>
+      <Layout>App</Layout>
     </>
   );
 }
 
 export default App;
-
-const Main = styled.main``;

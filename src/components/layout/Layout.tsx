@@ -11,4 +11,6 @@ function Layout({ children }: LayoutProps) {
 
 export default Layout;
 
-const Main = styled.main``;
+const Main = styled.main`
+  width: 100%;
+`;

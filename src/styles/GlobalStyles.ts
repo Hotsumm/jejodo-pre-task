@@ -26,6 +26,9 @@ const GlobalStyles = createGlobalStyle`
       padding: 0;
       cursor: pointer;
     }
+    ol,ul,li {
+        list-style:none;
+    }
 `;
 
 export default GlobalStyles;

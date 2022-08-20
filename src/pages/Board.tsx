@@ -4,12 +4,37 @@ import { BoardSearch, UserListTab, UserCard } from '../components/board';
 import { User } from '../types/user';
 
 function Board() {
+  const [initUsers, setInitUsers] = useState<User[] | null>(null);
   const [users, setUsers] = useState<User[] | null>(null);
+
+  function filterUserList(filter: string) {
+    if (!initUsers) return;
+
+    if (filter === '전체') {
+      setUsers(initUsers);
+      return;
+    }
+
+    if (filter === '5개 이상') {
+      const filteredUsers = initUsers.filter(
+        (user) => user.building_count >= 5
+      );
+      setUsers(filteredUsers);
+      return;
+    }
+
+    const filterCount = Number(filter[0]);
+    const filteredUsers = initUsers.filter(
+      (user) => user.building_count === filterCount
+    );
+    setUsers(filteredUsers);
+  }
 
   const fetchUser = useCallback(async () => {
     try {
       const res = await fetch('data/user.json');
       const data = await res.json();
+      setInitUsers(data);
       setUsers(data);
     } catch (error) {
       console.log(error);
@@ -38,8 +63,10 @@ function Board() {
           <BoardSearch />
           {users ? (
             <>
-              <UserListTab userCount={users.length} />
-              <Border />
+              <UserListTab
+                userCount={users.length}
+                filterUserList={filterUserList}
+              />
               <UserList>
                 {users.map((user, index) => (
                   <UserCard key={index} user={user} />
@@ -123,11 +150,6 @@ const SubTitle = styled.h2`
   font-size: 16px;
   line-height: 24px;
   text-align: center;
-`;
-
-const Border = styled.div`
-  width: 100%;
-  border-top: 1px solid rgb(0, 0, 0);
 `;
 
 const UserList = styled.div`

@@ -2,13 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { Filter } from '../icons';
 
-function UserListTab() {
+type UserListTabProps = {
+  userCount: number;
+};
+
+function UserListTab({ userCount }: UserListTabProps) {
   return (
     <Container>
       <MenuList>
         <Menu>
           입주민들
-          <UserCount>0</UserCount>
+          <UserCount>{userCount}</UserCount>
         </Menu>
       </MenuList>
       <FilterIcon>

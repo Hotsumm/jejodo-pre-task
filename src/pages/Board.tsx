@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { BoardSearch, UserListTab } from '../components/board';
+import { BoardSearch, UserListTab, UserCard } from '../components/board';
+import { User } from '../types/user';
 
 function Board() {
+  const [users, setUsers] = useState<User[] | null>(null);
+
+  const fetchUser = useCallback(async () => {
+    try {
+      const res = await fetch('data/user.json');
+      const data = await res.json();
+      setUsers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <Container>
       <Banner>
@@ -19,8 +36,19 @@ function Board() {
             </SubTitle>
           </TitleWrap>
           <BoardSearch />
-          <UserListTab />
-          <Border />
+          {users ? (
+            <>
+              <UserListTab userCount={users.length} />
+              <Border />
+              <UserList>
+                {users.map((user, index) => (
+                  <UserCard key={index} user={user} />
+                ))}
+              </UserList>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </Box>
       </Content>
     </Container>
@@ -100,4 +128,13 @@ const SubTitle = styled.h2`
 const Border = styled.div`
   width: 100%;
   border-top: 1px solid rgb(0, 0, 0);
+`;
+
+const UserList = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  gap: 15px 0;
 `;

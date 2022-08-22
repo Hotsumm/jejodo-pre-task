@@ -1,20 +1,28 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { BoardSearch, UserListTab, UserCard } from '../components/board';
+import {
+  BoardSearch,
+  UserListTab,
+  UserCard,
+  BoardPagination,
+} from '../components/board';
 import { User } from '../types/user';
 
+const ITEMS_COUNT = 8;
+
 function Board() {
+  const [page, setPage] = useState<number>(1);
   const [initUsers, setInitUsers] = useState<User[] | null>(null);
   const [users, setUsers] = useState<User[] | null>(null);
 
   function filterUserList(filter: string) {
     if (!initUsers) return;
 
+    setPage(1);
     if (filter === '전체') {
       setUsers(initUsers);
       return;
     }
-
     if (filter === '5개 이상') {
       const filteredUsers = initUsers.filter(
         (user) => user.building_count >= 5
@@ -28,6 +36,10 @@ function Board() {
       (user) => user.building_count === filterCount
     );
     setUsers(filteredUsers);
+  }
+
+  function handlePageChange(page: number) {
+    setPage(page);
   }
 
   const fetchUser = useCallback(async () => {
@@ -68,10 +80,21 @@ function Board() {
                 filterUserList={filterUserList}
               />
               <UserList>
-                {users.map((user, index) => (
-                  <UserCard key={index} user={user} />
-                ))}
+                {users
+                  .slice(
+                    ITEMS_COUNT * (page - 1),
+                    ITEMS_COUNT * (page - 1) + ITEMS_COUNT
+                  )
+                  .map((user, index) => (
+                    <UserCard key={index} user={user} />
+                  ))}
               </UserList>
+              <BoardPagination
+                itemsCountPerPage={ITEMS_COUNT}
+                count={users.length}
+                activePage={page}
+                handlePageChange={handlePageChange}
+              />
             </>
           ) : (
             <p>Loading...</p>

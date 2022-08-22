@@ -123,6 +123,9 @@ const FilterIcon = styled.div`
 `;
 
 const FilterWrap = styled.div`
+  @media screen and (max-width: 560px) {
+    flex-direction: column;
+  }
   padding-top: 25px;
   display: flex;
   align-items: center;
@@ -138,7 +141,7 @@ const Title = styled.div`
 const FilterList = styled.ul`
   display: flex;
   align-items: center;
-  gap: 0 25px;
+  gap: 0 5px;
 `;
 
 const FilterItem = styled.li<{ isSelected: boolean }>`

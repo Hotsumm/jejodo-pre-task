@@ -59,12 +59,10 @@ const Wrapper = styled.div`
 
 const Avatar = styled.div`
   display: block;
-  width: 60px;
-  height: 60px;
   margin-right: 20px;
   img {
-    width: 100%;
-    height: 100%;
+    width: 60px;
+    height: 60px;
   }
 `;
 
@@ -76,6 +74,7 @@ const UserInfo = styled.div`
 
 const Row = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 `;
 
@@ -96,8 +95,8 @@ const BuildingCount = styled.div`
 const UserId = styled.div`
   display: flex;
   gap: 0 4px;
-  & + & {
-    margin-left: 15px;
+  :first-child {
+    margin-right: 15px;
   }
 `;
 

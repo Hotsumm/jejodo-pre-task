@@ -111,6 +111,7 @@ const Container = styled.div`
   width: 100%;
   overflow: hidden auto;
   max-width: 1920px;
+  min-width: 320px;
 `;
 
 const Banner = styled.div`
@@ -127,7 +128,6 @@ const BannerPattern = styled.div`
   width: 2560px;
   background-image: url('/images/입주민_banner_pattern.png');
   height: inherit;
-  background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   position: fixed;
@@ -145,6 +145,7 @@ const BannerChar = styled.img`
 const Content = styled.div`
   width: 100%;
   background-color: rgb(255, 255, 255);
+  padding: 0 20px;
 `;
 
 const Box = styled.div`
@@ -163,8 +164,12 @@ const TitleWrap = styled.div`
 `;
 
 const Title = styled.h1`
-  padding-top: 48px;
+  @media screen and (max-width: 560px) {
+    font-size: 28px;
+  }
 
+  white-space: pre;
+  padding-top: 48px;
   font-size: 40px;
   line-height: 56px;
   margin-bottom: 20px;

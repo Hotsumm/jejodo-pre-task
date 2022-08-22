@@ -5,9 +5,11 @@ import { JNameBadge, ONameBadge } from '../icons';
 
 type UserCardProps = {
   user: User;
+  searchKeyword: string;
 };
 
-function UserCard({ user }: UserCardProps) {
+function UserCard({ user, searchKeyword }: UserCardProps) {
+  const parts = user.nickname.split(new RegExp(`(${searchKeyword})`, 'gi'));
   return (
     <Container>
       <Wrapper>
@@ -16,7 +18,19 @@ function UserCard({ user }: UserCardProps) {
         </Avatar>
         <UserInfo>
           <Row>
-            <NickName>{user.nickname}</NickName>
+            <NickName>
+              {searchKeyword ? (
+                parts.map((part, index) =>
+                  part === searchKeyword ? (
+                    <Highlighting key={index}>{part}</Highlighting>
+                  ) : (
+                    <span>{part}</span>
+                  )
+                )
+              ) : (
+                <span>{user.nickname}</span>
+              )}
+            </NickName>
             <BuildingCount>지구家 아파트 {user.building_count}개</BuildingCount>
           </Row>
           <Row>
@@ -79,10 +93,15 @@ const Row = styled.div`
 `;
 
 const NickName = styled.div`
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
-  margin-right: 15px;
+  span {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+  }
+`;
+
+const Highlighting = styled.span`
+  background: rgba(68, 152, 242, 0.5);
 `;
 
 const BuildingCount = styled.div`
@@ -90,6 +109,7 @@ const BuildingCount = styled.div`
   font-weight: 700;
   font-size: 14px;
   line-height: 20px;
+  margin-left: 15px;
 `;
 
 const UserId = styled.div`

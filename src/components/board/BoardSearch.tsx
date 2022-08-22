@@ -74,7 +74,7 @@ function BoardSearch({ users, handleSearch }: BoardSearchProps) {
       </Wrapper>
       {isFocus && autoCompleteList.length > 0 && (
         <AutoCompleteList>
-          {autoCompleteList.map((keyword, index) => (
+          {autoCompleteList.slice(0, 4).map((keyword, index) => (
             <AutoCompleteItem
               key={index}
               onClick={() => handleClickKeyword(keyword)}

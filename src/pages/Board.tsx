@@ -14,6 +14,23 @@ function Board() {
   const [page, setPage] = useState<number>(1);
   const [initUsers, setInitUsers] = useState<User[] | null>(null);
   const [users, setUsers] = useState<User[] | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+
+  function handleSearch(keyword: string) {
+    if (!initUsers) return;
+
+    setPage(1);
+    setSearchKeyword(keyword);
+    if (!keyword) {
+      setUsers(initUsers);
+      return;
+    }
+
+    const filteredUsers = initUsers.filter((user) =>
+      user.nickname.includes(keyword)
+    );
+    setUsers(filteredUsers);
+  }
 
   function filterUserList(filter: string) {
     if (!initUsers) return;
@@ -72,9 +89,9 @@ function Board() {
               같이 화성에 가는날을 기다리며 화목하게 지내봐요!
             </SubTitle>
           </TitleWrap>
-          <BoardSearch />
-          {users ? (
+          {initUsers && users ? (
             <>
+              <BoardSearch users={initUsers} handleSearch={handleSearch} />
               <UserListTab
                 userCount={users.length}
                 filterUserList={filterUserList}
@@ -86,7 +103,11 @@ function Board() {
                     ITEMS_COUNT * (page - 1) + ITEMS_COUNT
                   )
                   .map((user, index) => (
-                    <UserCard key={index} user={user} />
+                    <UserCard
+                      key={index}
+                      user={user}
+                      searchKeyword={searchKeyword}
+                    />
                   ))}
               </UserList>
               <BoardPagination

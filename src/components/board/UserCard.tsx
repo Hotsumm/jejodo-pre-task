@@ -24,7 +24,7 @@ function UserCard({ user, searchKeyword }: UserCardProps) {
                   part === searchKeyword ? (
                     <Highlighting key={index}>{part}</Highlighting>
                   ) : (
-                    <span>{part}</span>
+                    <span key={index}>{part}</span>
                   )
                 )
               ) : (
